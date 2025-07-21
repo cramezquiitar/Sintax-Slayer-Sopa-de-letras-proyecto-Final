@@ -65,8 +65,8 @@ flowchart TD
     AC --> AD[FIN]
 
 ```
-![image](https://github.com/user-attachments/assets/a1f9d695-79dd-4e52-945b-ddb1b0473f86)
-
-
 
 ## Codigo 
+
+
+![image](https://github.com/user-attachments/assets/a1f9d695-79dd-4e52-945b-ddb1b0473f86)
