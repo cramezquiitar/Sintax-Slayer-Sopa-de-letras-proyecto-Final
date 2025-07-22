@@ -79,5 +79,10 @@ flowchart TD
 
 ## Codigo 
 
+1 paso definir la lista de palabras en la sopa de letras: 
+
+
+2 paso crear la matris
+
 
 ![image](https://github.com/user-attachments/assets/a1f9d695-79dd-4e52-945b-ddb1b0473f86)
