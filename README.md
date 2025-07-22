@@ -1,8 +1,15 @@
-# A cristian le gustn los hombres
+# Sintax-Slayer-Sopa-de-letras ⚔️
 
+### Programacion de computadores
 
+### Universidad Nacional de Colombia
 
-# Sintax-Slayer-Sopa-de-letras-proyecto-Final
+### grupo 7
+
+### Integrantes: 
+- Cristian Amezquita
+- Sebastian Vega
+- Nicolas Valle
 
 ## Objetivo: 📌
 Desarrollar una aplicación en Python que genere y permita jugar una sopa de letras de tamaño mínimo 10x10 y máximo 30x30, utilizando palabras clave relacionadas con la carrera de Ingeniería Civil, aplicando los conocimientos adquiridos durante el curso de programación.
