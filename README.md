@@ -1,3 +1,7 @@
+A cristian le gustn los hombres
+
+
+
 # Sintax-Slayer-Sopa-de-letras-proyecto-Final
 
 ## Objetivo: 📌
