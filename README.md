@@ -120,14 +120,26 @@ Llena las casillas vacías (espacios ' ') con letras aleatorias del abecedario (
 ## 5️⃣ Verificaciones para insertar palabras
 ```python
 def puede_insertar_horizontal(palabra, sopa, fila, columna):
+    for i in range(len(palabra)):
+        if sopa[fila][columna + i] != ' ':
+            return False
+    return True
 ```
 Revisa si hay suficiente espacio horizontalmente desde una posición.
 ```python
 def puede_insertar_vertical(palabra, sopa, fila, columna):
+    for i in range(len(palabra)):
+        if sopa[fila + i][columna] != ' ':
+            return False
+    return True
 ```
 Revisa si hay espacio verticalmente desde una posición.
 ```python
 def puede_insertar_diagonal(palabra, sopa, fila, columna):
+    for i in range(len(palabra)):
+        if sopa[fila + i][columna + i] != ' ':
+            return False
+    return True
 ```
 Revisa si hay espacio diagonalmente desde una posición.
 -Estas funciones garantizan que no se sobreescriban letras ya puestas.  
@@ -138,14 +150,47 @@ Revisa si hay espacio diagonalmente desde una posición.
 ## 6️⃣ Insertar palabras en la sopa
 ```python
 def insertar_horizontal(palabra, sopa, tamaño, posiciones):
+    if len(palabra) > tamaño:
+        return False
+    for _ in range(50):
+        fila = random.randint(0, tamaño - 1)
+        columna = random.randint(0, tamaño - len(palabra))
+        if puede_insertar_horizontal(palabra, sopa, fila, columna):
+            for i in range(len(palabra)):
+                sopa[fila][columna + i] = palabra[i]
+                posiciones.append((fila, columna + i))
+            return True
+    return False
 ```
 Intenta insertar una palabra horizontalmente. Guarda las coordenadas de cada letra en posiciones.
 ```python
 def insertar_vertical(palabra, sopa, tamaño, posiciones):
+    if len(palabra) > tamaño:
+        return False
+    for _ in range(50):
+        fila = random.randint(0, tamaño - len(palabra))
+        columna = random.randint(0, tamaño - 1)
+        if puede_insertar_vertical(palabra, sopa, fila, columna):
+            for i in range(len(palabra)):
+                sopa[fila + i][columna] = palabra[i]
+                posiciones.append((fila + i, columna))
+            return True
+    return False
 ```
 Inserta palabras en dirección vertical.
 ```python
 def insertar_diagonal(palabra, sopa, tamaño, posiciones):
+    if len(palabra) > tamaño:
+        return False
+    for _ in range(50):
+        fila = random.randint(0, tamaño - len(palabra))
+        columna = random.randint(0, tamaño - len(palabra))
+        if puede_insertar_diagonal(palabra, sopa, fila, columna):
+            for i in range(len(palabra)):
+                sopa[fila + i][columna + i] = palabra[i]
+                posiciones.append((fila + i, columna + i))
+            return True
+    return False
 ```
 - Inserta palabras en dirección diagonal.
 - Se intenta hasta 50 veces encontrar una posición válida para cada palabra. Si no se puede, se descarta.  
@@ -156,6 +201,22 @@ def insertar_diagonal(palabra, sopa, tamaño, posiciones):
 ## 7️⃣ Insertar varias palabras en la sopa
 ```python
 def insertar_palabras(sopa, tamaño, palabras):
+    ubicaciones = {}
+    for palabra in palabras:
+        palabra = palabra.upper()
+        posiciones = []
+        direccion = random.choice(['H', 'V', 'D'])
+        if direccion == 'H':
+            colocada = insertar_horizontal(palabra, sopa, tamaño, posiciones)
+        elif direccion == 'V':
+            colocada = insertar_vertical(palabra, sopa, tamaño, posiciones)
+        else:
+            colocada = insertar_diagonal(palabra, sopa, tamaño, posiciones)
+        if colocada:
+            ubicaciones[palabra] = posiciones
+        else:
+            print(f"No se pudo insertar la palabra: {palabra}")
+    return ubicaciones
 ```
 - Selecciona aleatoriamente la dirección de cada palabra (H, V, D), y trata de insertarla. Si se logra, se guarda su ubicación. Si no, se avisa con un print.  
 
@@ -187,6 +248,10 @@ def verificar_palabra(sopa, palabra, fila, columna, direccion):
 ## 9️⃣ Mostrar la sopa con coordenadas
 ```python
 def mostrar_sopa(sopa, tamaño):
+    print("\nSopa de Letras:\n")
+    print("   " + " ".join([f"{col:>2}" for col in range(tamaño)]))  # Encabezado columnas
+    for i, fila in enumerate(sopa):
+        print(f"{i:>2} " + " ".join(f"{letra:>2}" for letra in fila))  # Filas con índice
 ```
 Imprime la sopa en consola de forma ordenada:
 - Agrega un encabezado con los números de columna.
