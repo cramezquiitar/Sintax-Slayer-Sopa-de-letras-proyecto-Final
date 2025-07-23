@@ -33,48 +33,37 @@ Desarrollar una aplicación en Python que genere y permita jugar una sopa de let
 ## Diagrama
 ```mermaid
 flowchart TD
-    A[Inicio] --> B[Definir lista de palabras]
-    B --> C[Pedir al usuario escoger dificultad]
-    C --> D{Dificultad}
-    D -->|Fácil| E[Definir tablero 10x10]
-    D -->|Medio| F[Definir tablero 20x20]
-    D -->|Difícil| G[Definir tablero 30x30]
-    E --> H[Crear tablero con guiones]
-    F --> H
-    G --> H
+    A[Inicio del Programa] --> B[Mostrar menú de dificultad]
+    B --> C{Usuario elige dificultad}
+    C -->|1| D[Tamaño = 10x10]
+    C -->|2| E[Tamaño = 20x20]
+    C -->|3| F[Tamaño = 30x30]
 
-    H --> I[Para cada palabra en lista]
-    I --> J[Repetir]
-    J --> K[Elegir dirección y posición aleatoria]
-    K --> L{¿Cabe la palabra sin conflicto?}
-    L -->|Sí| M[Insertar palabra en tablero]
-    M --> N[Fin Repetir]
-    L -->|No| K
-    N --> O{¿Quedan palabras?}
-    O -->|Sí| I
-    O -->|No| P[Recorrer tablero]
+    D --> G[Crear sopa vacía]
+    E --> G
+    F --> G
 
-    P --> Q{¿Celda es -?}
-    Q -->|Sí| R[Rellenar con letra aleatoria]
-    Q -->|No| S[Siguiente celda]
-    R --> S
-    S --> T{¿Quedan celdas?}
-    T -->|Sí| P
-    T -->|No| U[Imprimir tablero en consola]
+    G --> H[Seleccionar 10 palabras aleatorias]
+    H --> I[Insertar palabras en la sopa]
+    I --> J[Rellenar espacios vacíos con letras aleatorias]
+    J --> K[Mostrar sopa con coordenadas]
+    K --> L[Mostrar lista de palabras por encontrar]
 
-    U --> V[Iniciar puntuación = 0]
-    V --> W{¿Quedan palabras por encontrar?}
-    W -->|Sí| X[Pedir palabra al usuario]
-    X --> Y{¿Está en lista y en tablero?}
-    Y -->|Sí| Z[Mostrar Correcto\nAumentar puntuación\nMarcar como encontrada]
-    Y -->|No| AA[Mostrar Incorrecto o ya encontrada]
-    Z --> W
-    AA --> W
+    L --> M{¿Usuario desea buscar una palabra?}
+    M -->|Sí| N[Ingresar palabra, coordenadas y dirección]
+    N --> O{¿Palabra verificada correctamente?}
+    O -->|Sí| P[Eliminar palabra de la lista]
+    O -->|No| Q[Mensaje de error]
 
-    W -->|No| AB[Mostrar mensaje de fin de juego]
-    AB --> AC[Mostrar puntuación final]
-    AC --> AD[FIN]
+    P --> R{¿Quedan palabras?}
+    Q --> R
 
+    R -->|Sí| M
+    R -->|No| S[Mostrar mensaje de victoria]
+
+    M -->|No| T[Mostrar palabras no encontradas]
+    S --> U[Fin del Juego]
+    T --> U
 ```
 
 # Explicación Codigo
