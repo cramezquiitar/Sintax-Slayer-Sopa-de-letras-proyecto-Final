@@ -260,6 +260,66 @@ Imprime la sopa en consola de forma ordenada:
 ## 🔟 Lógica del juego principal
 ```python
 def jugar_sopa_letras():
+    print("Sopa de Letras: Sintas Slayer")
+    print("Seleccione la dificultad:")
+    print("1. Fácil (10x10)")
+    print("2. Media (20x20)")
+    print("3. Difícil (30x30)")
+
+    while True:
+        dificultad = input("Ingrese una opción (1/2/3): ").strip()
+        if dificultad == '1':
+            tamaño = 10
+            break
+        elif dificultad == '2':
+            tamaño = 20
+            break
+        elif dificultad == '3':
+            tamaño = 30
+            break
+        else:
+            print("Opción inválida. Intente de nuevo.")
+
+    sopa = crear_sopa_vacia(tamaño)
+    cantidad_palabras = min(10, len(palabras_ingenieria))
+    palabras_seleccionadas = random.sample(palabras_ingenieria, cantidad_palabras)
+    ubicaciones = insertar_palabras(sopa, tamaño, palabras_seleccionadas)
+    rellenar_sopa(sopa, tamaño)
+
+    mostrar_sopa(sopa, tamaño)
+
+    palabras_restantes = palabras_seleccionadas.copy()
+    print("\nPalabras por encontrar:")
+    print(palabras_restantes)
+
+    while palabras_restantes:
+        respuesta = input("\n¿Deseas intentar encontrar una palabra? (S/N): ").strip().upper()
+        if respuesta != 'S':
+            break
+
+        palabra = input("Palabra: ").strip().upper()
+        if palabra not in palabras_restantes:
+            print("Palabra inválida o ya encontrada.")
+            continue
+
+        try:
+            fila = int(input("Fila inicial (número): "))
+            columna = int(input("Columna inicial (número): "))
+            direccion = input("Dirección (H = horizontal, V = vertical, D = diagonal): ").strip().upper()
+
+            if verificar_palabra(sopa, palabra, fila, columna, direccion):
+                print(f" Correcto. Encontraste la palabra '{palabra}'.")
+                palabras_restantes.remove(palabra)
+            else:
+                print(" Incorrecto. Intenta otra vez.")
+        except:
+            print(" Error en los datos ingresados. Intenta de nuevo.")
+
+    if not palabras_restantes:
+        print("\n Felicidades. Has encontrado todas las palabras.")
+    else:
+        print("\n Juego terminado. Palabras no encontradas:")
+        print(palabras_restantes)
 ```
 - Contiene toda la interacción con el usuario.  
 
