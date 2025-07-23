@@ -30,7 +30,7 @@ Desarrollar una aplicación en Python que genere y permita jugar una sopa de let
 - Incorporar elementos básicos de validación y control de errores, como verificar la validez de palabras ingresadas o el rango del tablero.
 
 
-## Diagrama
+## Diagrama 📋
 ```mermaid
 flowchart TD
     A[Inicio del Programa] --> B[Mostrar menú de dificultad]
@@ -66,7 +66,7 @@ flowchart TD
     T --> U
 ```
 
-# Explicación Codigo
+# Explicación Codigo🔥
 ## 1️⃣ Importar librerías
 
 ```python
@@ -186,7 +186,7 @@ def jugar_sopa_letras():
 - Contiene toda la interacción con el usuario.  
 
 
-# Código completo
+# Código completo 💠
 
 ```python
 import random
