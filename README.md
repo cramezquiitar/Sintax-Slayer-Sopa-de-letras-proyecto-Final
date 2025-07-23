@@ -75,10 +75,10 @@ import random
 Se importa el módulo random, que permite realizar elecciones aleatorias. Lo usaremos para:
 - Escoger letras aleatorias para rellenar la sopa.
 - Escoger posiciones aleatorias donde insertar las palabras.
-- Escoger direcciones aleatorias (horizontal, vertical o diagonal).
-
-
-
+- Escoger direcciones aleatorias (horizontal, vertical o diagonal).  
+  
+  
+  
 ## 2️⃣ Lista de palabras
 ```python
 palabras_ingenieria = [
@@ -87,7 +87,7 @@ palabras_ingenieria = [
     "PLANOS", "MECANICA", "TRABAJO", "EDIFICIO", "LADRILLO", "COLUMNA"
 ]
 ```
-Una lista de palabras clave relacionadas con ingeniería civil. Estas son las palabras que se ocultarán dentro de la sopa.
+Una lista de palabras clave relacionadas con ingeniería civil. Estas son las palabras que se ocultarán dentro de la sopa.  
 
 
 
@@ -97,7 +97,7 @@ Una lista de palabras clave relacionadas con ingeniería civil. Estas son las pa
 def crear_sopa_vacia(tamaño):
     return [[' ' for _ in range(tamaño)] for _ in range(tamaño)]
 ```
-Esta función crea una matriz cuadrada de espacios vacíos (' '), del tamaño que el usuario elija: 10x10, 20x20 o 30x30.
+Esta función crea una matriz cuadrada de espacios vacíos (' '), del tamaño que el usuario elija: 10x10, 20x20 o 30x30.  
 
 
 
@@ -113,7 +113,7 @@ def rellenar_sopa(sopa, tamaño):
 ```
 Llena las casillas vacías (espacios ' ') con letras aleatorias del abecedario (incluye la Ñ). Así completa la sopa para que no queden huecos.
 - Recorre toda la sopa.
-- Si encuentra un espacio en blanco, lo reemplaza por una letra aleatoria.
+- Si encuentra un espacio en blanco, lo reemplaza por una letra aleatoria.  
 
   
 
@@ -130,7 +130,7 @@ Revisa si hay espacio verticalmente desde una posición.
 def puede_insertar_diagonal(palabra, sopa, fila, columna):
 ```
 Revisa si hay espacio diagonalmente desde una posición.
--Estas funciones garantizan que no se sobreescriban letras ya puestas.
+-Estas funciones garantizan que no se sobreescriban letras ya puestas.  
 
 
 
@@ -148,7 +148,7 @@ Inserta palabras en dirección vertical.
 def insertar_diagonal(palabra, sopa, tamaño, posiciones):
 ```
 - Inserta palabras en dirección diagonal.
-- Se intenta hasta 50 veces encontrar una posición válida para cada palabra. Si no se puede, se descarta.
+- Se intenta hasta 50 veces encontrar una posición válida para cada palabra. Si no se puede, se descarta.  
 
 
 
@@ -157,7 +157,7 @@ def insertar_diagonal(palabra, sopa, tamaño, posiciones):
 ```python
 def insertar_palabras(sopa, tamaño, palabras):
 ```
-- Selecciona aleatoriamente la dirección de cada palabra (H, V, D), y trata de insertarla. Si se logra, se guarda su ubicación. Si no, se avisa con un print.
+- Selecciona aleatoriamente la dirección de cada palabra (H, V, D), y trata de insertarla. Si se logra, se guarda su ubicación. Si no, se avisa con un print.  
 
 
 
@@ -167,7 +167,7 @@ def verificar_palabra(sopa, palabra, fila, columna, direccion):
 ```
 
 - Toma las coordenadas ingresadas por el jugador y verifica si realmente desde esa posición y en esa dirección está la palabra que indicó.
-- Usa try/except para manejar errores de índice si el usuario se sale de los límites de la matriz.
+- Usa try/except para manejar errores de índice si el usuario se sale de los límites de la matriz.  
 
 
   
@@ -177,13 +177,13 @@ def mostrar_sopa(sopa, tamaño):
 ```
 Imprime la sopa en consola de forma ordenada:
 - Agrega un encabezado con los números de columna.
-- Enumera las filas.
+- Enumera las filas.  
 
 ## 🔟 Lógica del juego principal
 ```python
 def jugar_sopa_letras():
 ```
-- Contiene toda la interacción con el usuario
+- Contiene toda la interacción con el usuario.  
 
 
 # Código completo
