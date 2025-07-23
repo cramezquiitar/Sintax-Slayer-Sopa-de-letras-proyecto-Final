@@ -164,6 +164,19 @@ def insertar_palabras(sopa, tamaño, palabras):
 ## 8️⃣ Verificar si el usuario encontró la palabra
 ```python
 def verificar_palabra(sopa, palabra, fila, columna, direccion):
+    palabra = palabra.upper()  # Asegura que todo esté en mayúsculas
+    try:
+        if direccion == 'H':
+            letras = ''.join(sopa[fila][columna + i] for i in range(len(palabra)))
+        elif direccion == 'V':
+            letras = ''.join(sopa[fila + i][columna] for i in range(len(palabra)))
+        elif direccion == 'D':
+            letras = ''.join(sopa[fila + i][columna + i] for i in range(len(palabra)))
+        else:
+            return False
+        return letras == palabra
+    except IndexError:
+        return False:
 ```
 
 - Toma las coordenadas ingresadas por el jugador y verifica si realmente desde esa posición y en esa dirección está la palabra que indicó.
