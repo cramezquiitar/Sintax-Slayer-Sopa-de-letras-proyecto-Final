@@ -78,14 +78,17 @@ flowchart TD
 ```
 
 # Explicación Codigo
-## 1️⃣ Importación de módulos
+## 1️⃣ Importar librerías
 
 ```python
 import random
-import pandas as pd
 ```
-- random: permite hacer selecciones aleatorias (por ejemplo, letras o posiciones).
-- pandas (pd): se usa para mostrar la sopa de letras como una tabla más ordenada con coordenadas.
+Se importa el módulo random, que permite realizar elecciones aleatorias. Lo usaremos para:
+- Escoger letras aleatorias para rellenar la sopa.
+- Escoger posiciones aleatorias donde insertar las palabras.
+- Escoger direcciones aleatorias (horizontal, vertical o diagonal).
+
+
 
 ## 2️⃣ Lista de palabras
 ```python
@@ -95,7 +98,10 @@ palabras_ingenieria = [
     "PLANOS", "MECANICA", "TRABAJO", "EDIFICIO", "LADRILLO", "COLUMNA"
 ]
 ```
-Aquí definimoss las palabras que van a esconderse en la sopa de letras, todas relacionadas con ingeniería civil.
+Una lista de palabras clave relacionadas con ingeniería civil. Estas son las palabras que se ocultarán dentro de la sopa.
+
+
+
 
 ## 3️⃣ Crear la sopa vacía
 ```python
@@ -104,149 +110,90 @@ def crear_sopa_vacia(tamaño):
 ```
 Esta función crea una matriz cuadrada de espacios vacíos (' '), del tamaño que el usuario elija: 10x10, 20x20 o 30x30.
 
-## 4️⃣ Rellenar los espacios vacíos
+
+
+
+## 4️⃣ Rellenar espacios vacíos con letras aleatorias
 ```python
 def rellenar_sopa(sopa, tamaño):
     letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÑ'
-    for i in range(tamaño):
-        for j in range(tamaño):
-            if sopa[i][j] == ' ':
-                sopa[i][j] = random.choice(letras)
+    for fila in range(tamaño):
+        for columna in range(tamaño):
+            if sopa[fila][columna] == ' ':
+                sopa[fila][columna] = random.choice(letras)
 ```
+Llena las casillas vacías (espacios ' ') con letras aleatorias del abecedario (incluye la Ñ). Así completa la sopa para que no queden huecos.
 - Recorre toda la sopa.
 - Si encuentra un espacio en blanco, lo reemplaza por una letra aleatoria.
 
-## 5️⃣ Inserción horizontal
-### Verifica si se puede insertar:
   
-```python
-def puede_insertar_horizontal(palabra, sopa, fila, col):
-    for i in range(len(palabra)):
-        if sopa[fila][col + i] != ' ':
-            return False
-    return True
-```
-Verifica que la palabra no se cruce con otra ya escrita en la misma fila.
 
-### Insertar palabra horizontal:
+## 5️⃣ Verificaciones para insertar palabras
+```python
+def puede_insertar_horizontal(palabra, sopa, fila, columna):
+```
+Revisa si hay suficiente espacio horizontalmente desde una posición.
+```python
+def puede_insertar_vertical(palabra, sopa, fila, columna):
+```
+Revisa si hay espacio verticalmente desde una posición.
+```python
+def puede_insertar_diagonal(palabra, sopa, fila, columna):
+```
+Revisa si hay espacio diagonalmente desde una posición.
+-Estas funciones garantizan que no se sobreescriban letras ya puestas.
+
+
+
+
+## 6️⃣ Insertar palabras en la sopa
 ```python
 def insertar_horizontal(palabra, sopa, tamaño, posiciones):
-    if len(palabra) > tamaño:
-        return False
-    for _ in range(50):
-        fila = random.randint(0, tamaño - 1)
-        col = random.randint(0, tamaño - len(palabra))
-        if puede_insertar_horizontal(palabra, sopa, fila, col):
-            for i in range(len(palabra)):
-                sopa[fila][col + i] = palabra[i]
-                posiciones.append((fila, col + i))
-            return True
-    return False
 ```
-- Intenta colocar la palabra hasta 50 veces en posiciones aleatorias.
-- Si encuentra un lugar válido, la inserta y guarda sus coordenadas.
-
-## 6️⃣ Inserción vertical
- ### Verifica
+Intenta insertar una palabra horizontalmente. Guarda las coordenadas de cada letra en posiciones.
 ```python
-def puede_insertar_vertical(palabra, sopa, fila, col):
-    for i in range(len(palabra)):
-        if sopa[fila + i][col] != ' ':
-            return False
-    return True
+def insertar_vertical(palabra, sopa, tamaño, posiciones):
 ```
-- Verifica si la palabra cabe en vertical sin chocar.
- ### Insertar:
- ```python
- def insertar_vertical(palabra, sopa, tamaño, posiciones):
-    if len(palabra) > tamaño:
-        return False
-    for _ in range(50):
-        fila = random.randint(0, tamaño - len(palabra))
-        col = random.randint(0, tamaño - 1)
-        if puede_insertar_vertical(palabra, sopa, fila, col):
-            for i in range(len(palabra)):
-                sopa[fila + i][col] = palabra[i]
-                posiciones.append((fila + i, col))
-            return True
-    return False
-```
-- Lo mismo que la horizontal pero de arriba a abajo.
-
-## 7️⃣ Inserción diagonal
- ### Verificar:
-```python
-def puede_insertar_diagonal(palabra, sopa, fila, col):
-    for i in range(len(palabra)):
-        if sopa[fila + i][col + i] != ' ':
-            return False
-    return True
-```
-### Insertar:
+Inserta palabras en dirección vertical.
 ```python
 def insertar_diagonal(palabra, sopa, tamaño, posiciones):
-    if len(palabra) > tamaño:
-        return False
-    for _ in range(50):
-        fila = random.randint(0, tamaño - len(palabra))
-        col = random.randint(0, tamaño - len(palabra))
-        if puede_insertar_diagonal(palabra, sopa, fila, col):
-            for i in range(len(palabra)):
-                sopa[fila + i][col + i] = palabra[i]
-                posiciones.append((fila + i, col + i))
-            return True
-    return False
 ```
-## 8️⃣ Insertar todas las palabras
+- Inserta palabras en dirección diagonal.
+- Se intenta hasta 50 veces encontrar una posición válida para cada palabra. Si no se puede, se descarta.
+
+
+
+
+## 7️⃣ Insertar varias palabras en la sopa
 ```python
 def insertar_palabras(sopa, tamaño, palabras):
-    ubicaciones = {}
-    for palabra in palabras:
-        palabra = palabra.upper()
-        posiciones = []
-        direccion = random.choice(['H', 'V', 'D'])
-        if direccion == 'H':
-            colocada = insertar_horizontal(palabra, sopa, tamaño, posiciones)
-        elif direccion == 'V':
-            colocada = insertar_vertical(palabra, sopa, tamaño, posiciones)
-        else:
-            colocada = insertar_diagonal(palabra, sopa, tamaño, posiciones)
-
-        if colocada:
-            ubicaciones[palabra] = posiciones
-        else:
-            print(f"No se pudo insertar la palabra: {palabra}")
-    return ubicaciones
 ```
-- Recorre todas las palabras seleccionadas.
-- Elige al azar si va horizontal, vertical o diagonal.
-- Guarda sus posiciones si logra insertarla.
+- Selecciona aleatoriamente la dirección de cada palabra (H, V, D), y trata de insertarla. Si se logra, se guarda su ubicación. Si no, se avisa con un print.
 
-## 9️⃣ Verificar palabra del jugador
+
+
+## 8️⃣ Verificar si el usuario encontró la palabra
 ```python
-def verificar_palabra(sopa, palabra, fila, col, direccion):
-    palabra = palabra.upper()
-    try:
-        if direccion == 'H':
-            letras = ''.join(sopa[fila][col + i] for i in range(len(palabra)))
-        elif direccion == 'V':
-            letras = ''.join(sopa[fila + i][col] for i in range(len(palabra)))
-        elif direccion == 'D':
-            letras = ''.join(sopa[fila + i][col + i] for i in range(len(palabra)))
-        else:
-            return False
-        return letras == palabra
-    except IndexError:
-        return False
+def verificar_palabra(sopa, palabra, fila, columna, direccion):
 ```
-- El jugador da una coordenada inicial y una dirección.
-- Se extraen las letras en esa dirección y se comparan con la palabra que dijo.
-- Si son iguales: ¡palabra encontrada!
 
-## 🔟 Juego principal
+- Toma las coordenadas ingresadas por el jugador y verifica si realmente desde esa posición y en esa dirección está la palabra que indicó.
+- Usa try/except para manejar errores de índice si el usuario se sale de los límites de la matriz.
+
+
+  
+## 9️⃣ Mostrar la sopa con coordenadas
+```python
+def mostrar_sopa(sopa, tamaño):
+```
+Imprime la sopa en consola de forma ordenada:
+- Agrega un encabezado con los números de columna.
+- Enumera las filas.
+
+## 🔟 Lógica del juego principal
 ```python
 def jugar_sopa_letras():
-    print("Sopa de Letras: Ingeniería Civil")
 ```
+- Contiene toda la interacción con el usuario
 
 ![image](https://github.com/user-attachments/assets/a1f9d695-79dd-4e52-945b-ddb1b0473f86)
