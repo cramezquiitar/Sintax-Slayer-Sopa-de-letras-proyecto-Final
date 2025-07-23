@@ -78,7 +78,7 @@ flowchart TD
 ```
 
 # Explicación Codigo
-## 1. Importación de módulos
+## 1️⃣ Importación de módulos
 
 ```python
 import random
@@ -87,7 +87,7 @@ import pandas as pd
 - random: permite hacer selecciones aleatorias (por ejemplo, letras o posiciones).
 - pandas (pd): se usa para mostrar la sopa de letras como una tabla más ordenada con coordenadas.
 
-## 2. Lista de palabras
+## 2️⃣ Lista de palabras
 ```python
 palabras_ingenieria = [
     "PUENTE", "VIGA", "CIMENTACION", "CONCRETO", "ASFALTO",
@@ -97,14 +97,14 @@ palabras_ingenieria = [
 ```
 Aquí definimoss las palabras que van a esconderse en la sopa de letras, todas relacionadas con ingeniería civil.
 
-## 3. Crear la sopa vacía
+## 3️⃣ Crear la sopa vacía
 ```python
 def crear_sopa_vacia(tamaño):
     return [[' ' for _ in range(tamaño)] for _ in range(tamaño)]
 ```
 Esta función crea una matriz cuadrada de espacios vacíos (' '), del tamaño que el usuario elija: 10x10, 20x20 o 30x30.
 
-## 4. Rellenar los espacios vacíos
+## 4️⃣ Rellenar los espacios vacíos
 ```python
 def rellenar_sopa(sopa, tamaño):
     letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÑ'
@@ -116,7 +116,7 @@ def rellenar_sopa(sopa, tamaño):
 - Recorre toda la sopa.
 - Si encuentra un espacio en blanco, lo reemplaza por una letra aleatoria.
 
-## 5. Inserción horizontal
+## 5️⃣ Inserción horizontal
 ### Verifica si se puede insertar:
   
 ```python
@@ -146,7 +146,7 @@ def insertar_horizontal(palabra, sopa, tamaño, posiciones):
 - Intenta colocar la palabra hasta 50 veces en posiciones aleatorias.
 - Si encuentra un lugar válido, la inserta y guarda sus coordenadas.
 
-## 6. Inserción vertical
+## 6️⃣ Inserción vertical
  ### Verifica
 ```python
 def puede_insertar_vertical(palabra, sopa, fila, col):
@@ -173,7 +173,7 @@ def puede_insertar_vertical(palabra, sopa, fila, col):
 ```
 - Lo mismo que la horizontal pero de arriba a abajo.
 
-## 7. Inserción diagonal
+## 7️⃣ Inserción diagonal
  ### Verificar:
 ```python
 def puede_insertar_diagonal(palabra, sopa, fila, col):
@@ -197,7 +197,7 @@ def insertar_diagonal(palabra, sopa, tamaño, posiciones):
             return True
     return False
 ```
-## 8. Insertar todas las palabras
+## 8️⃣ Insertar todas las palabras
 ```python
 def insertar_palabras(sopa, tamaño, palabras):
     ubicaciones = {}
@@ -222,7 +222,7 @@ def insertar_palabras(sopa, tamaño, palabras):
 - Elige al azar si va horizontal, vertical o diagonal.
 - Guarda sus posiciones si logra insertarla.
 
-## 9. Verificar palabra del jugador
+## 9️⃣ Verificar palabra del jugador
 ```python
 def verificar_palabra(sopa, palabra, fila, col, direccion):
     palabra = palabra.upper()
@@ -243,7 +243,7 @@ def verificar_palabra(sopa, palabra, fila, col, direccion):
 - Se extraen las letras en esa dirección y se comparan con la palabra que dijo.
 - Si son iguales: ¡palabra encontrada!
 
-## 10. Juego principal
+## 🔟 Juego principal
 ```python
 def jugar_sopa_letras():
     print("Sopa de Letras: Ingeniería Civil")
