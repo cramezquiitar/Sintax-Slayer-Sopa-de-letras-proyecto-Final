@@ -185,4 +185,200 @@ def jugar_sopa_letras():
 ```
 - Contiene toda la interacción con el usuario
 
+
+# Código completo
+
+```python
+import random
+
+# Lista de palabras relacionadas con ingeniería civil
+palabras_ingenieria = [
+    "PUENTE", "VIGA", "CIMENTACION", "CONCRETO", "ASFALTO",
+    "TOPOGRAFIA", "DRENAJE", "SUELO", "ESTRUCTURA", "HORMIGON",
+    "PLANOS", "MECANICA", "TRABAJO", "EDIFICIO", "LADRILLO", "COLUMNA"
+]
+
+# Función para crear una sopa vacía de tamaño n x n
+def crear_sopa_vacia(tamaño):
+    return [[' ' for _ in range(tamaño)] for _ in range(tamaño)]
+
+# Rellenar los espacios vacíos de la sopa con letras aleatorias
+def rellenar_sopa(sopa, tamaño):
+    letras = 'ABCDEFGHIJKLMNOPQRSTUVWXYZÑ'
+    for fila in range(tamaño):
+        for columna in range(tamaño):
+            if sopa[fila][columna] == ' ':
+                sopa[fila][columna] = random.choice(letras)
+
+# Verificaciones de inserción para cada dirección
+def puede_insertar_horizontal(palabra, sopa, fila, columna):
+    for i in range(len(palabra)):
+        if sopa[fila][columna + i] != ' ':
+            return False
+    return True
+
+def puede_insertar_vertical(palabra, sopa, fila, columna):
+    for i in range(len(palabra)):
+        if sopa[fila + i][columna] != ' ':
+            return False
+    return True
+
+def puede_insertar_diagonal(palabra, sopa, fila, columna):
+    for i in range(len(palabra)):
+        if sopa[fila + i][columna + i] != ' ':
+            return False
+    return True
+
+# Funciones para insertar palabras en distintas direcciones
+def insertar_horizontal(palabra, sopa, tamaño, posiciones):
+    if len(palabra) > tamaño:
+        return False
+    for _ in range(50):
+        fila = random.randint(0, tamaño - 1)
+        columna = random.randint(0, tamaño - len(palabra))
+        if puede_insertar_horizontal(palabra, sopa, fila, columna):
+            for i in range(len(palabra)):
+                sopa[fila][columna + i] = palabra[i]
+                posiciones.append((fila, columna + i))
+            return True
+    return False
+
+def insertar_vertical(palabra, sopa, tamaño, posiciones):
+    if len(palabra) > tamaño:
+        return False
+    for _ in range(50):
+        fila = random.randint(0, tamaño - len(palabra))
+        columna = random.randint(0, tamaño - 1)
+        if puede_insertar_vertical(palabra, sopa, fila, columna):
+            for i in range(len(palabra)):
+                sopa[fila + i][columna] = palabra[i]
+                posiciones.append((fila + i, columna))
+            return True
+    return False
+
+def insertar_diagonal(palabra, sopa, tamaño, posiciones):
+    if len(palabra) > tamaño:
+        return False
+    for _ in range(50):
+        fila = random.randint(0, tamaño - len(palabra))
+        columna = random.randint(0, tamaño - len(palabra))
+        if puede_insertar_diagonal(palabra, sopa, fila, columna):
+            for i in range(len(palabra)):
+                sopa[fila + i][columna + i] = palabra[i]
+                posiciones.append((fila + i, columna + i))
+            return True
+    return False
+
+# Inserta todas las palabras seleccionadas
+def insertar_palabras(sopa, tamaño, palabras):
+    ubicaciones = {}
+    for palabra in palabras:
+        palabra = palabra.upper()
+        posiciones = []
+        direccion = random.choice(['H', 'V', 'D'])
+        if direccion == 'H':
+            colocada = insertar_horizontal(palabra, sopa, tamaño, posiciones)
+        elif direccion == 'V':
+            colocada = insertar_vertical(palabra, sopa, tamaño, posiciones)
+        else:
+            colocada = insertar_diagonal(palabra, sopa, tamaño, posiciones)
+        if colocada:
+            ubicaciones[palabra] = posiciones
+        else:
+            print(f"No se pudo insertar la palabra: {palabra}")
+    return ubicaciones
+
+# Verifica si una palabra está correctamente ubicada según la dirección
+def verificar_palabra(sopa, palabra, fila, columna, direccion):
+    palabra = palabra.upper()
+    try:
+        if direccion == 'H':
+            letras = ''.join(sopa[fila][columna + i] for i in range(len(palabra)))
+        elif direccion == 'V':
+            letras = ''.join(sopa[fila + i][columna] for i in range(len(palabra)))
+        elif direccion == 'D':
+            letras = ''.join(sopa[fila + i][columna + i] for i in range(len(palabra)))
+        else:
+            return False
+        return letras == palabra
+    except IndexError:
+        return False
+
+# Imprime la sopa con encabezado de coordenadas
+def mostrar_sopa(sopa, tamaño):
+    print("\nSopa de Letras:\n")
+    print("   " + " ".join([f"{col:>2}" for col in range(tamaño)]))  # Encabezado columnas
+    for i, fila in enumerate(sopa):
+        print(f"{i:>2} " + " ".join(f"{letra:>2}" for letra in fila))  # Filas con índice
+
+# Lógica principal del juego
+def jugar_sopa_letras():
+    print("Sopa de Letras: Sintas Slayer")
+    print("Seleccione la dificultad:")
+    print("1. Fácil (10x10)")
+    print("2. Media (20x20)")
+    print("3. Difícil (30x30)")
+
+    while True:
+        dificultad = input("Ingrese una opción (1/2/3): ").strip()
+        if dificultad == '1':
+            tamaño = 10
+            break
+        elif dificultad == '2':
+            tamaño = 20
+            break
+        elif dificultad == '3':
+            tamaño = 30
+            break
+        else:
+            print("Opción inválida. Intente de nuevo.")
+
+    sopa = crear_sopa_vacia(tamaño)
+    cantidad_palabras = min(10, len(palabras_ingenieria))
+    palabras_seleccionadas = random.sample(palabras_ingenieria, cantidad_palabras)
+    ubicaciones = insertar_palabras(sopa, tamaño, palabras_seleccionadas)
+    rellenar_sopa(sopa, tamaño)
+
+    mostrar_sopa(sopa, tamaño)
+
+    palabras_restantes = palabras_seleccionadas.copy()
+    print("\nPalabras por encontrar:")
+    print(palabras_restantes)
+
+    while palabras_restantes:
+        respuesta = input("\n¿Deseas intentar encontrar una palabra? (S/N): ").strip().upper()
+        if respuesta != 'S':
+            break
+
+        palabra = input("Palabra: ").strip().upper()
+        if palabra not in palabras_restantes:
+            print("Palabra inválida o ya encontrada.")
+            continue
+
+        try:
+            fila = int(input("Fila inicial (número): "))
+            columna = int(input("Columna inicial (número): "))
+            direccion = input("Dirección (H = horizontal, V = vertical, D = diagonal): ").strip().upper()
+
+            if verificar_palabra(sopa, palabra, fila, columna, direccion):
+                print(f" Correcto. Encontraste la palabra '{palabra}'.")
+                palabras_restantes.remove(palabra)
+            else:
+                print(" Incorrecto. Intenta otra vez.")
+        except:
+            print(" Error en los datos ingresados. Intenta de nuevo.")
+
+    if not palabras_restantes:
+        print("\n Felicidades. Has encontrado todas las palabras.")
+    else:
+        print("\n Juego terminado. Palabras no encontradas:")
+        print(palabras_restantes)
+
+# Ejecutar el juego
+if __name__ == "__main__":
+    jugar_sopa_letras()
+```
+
+
+
 ![image](https://github.com/user-attachments/assets/a1f9d695-79dd-4e52-945b-ddb1b0473f86)
